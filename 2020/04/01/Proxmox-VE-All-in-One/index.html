@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/8bit.png">
+  <link rel="icon" type="image/png" href="/img/8bit.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Songchan">
+  <meta name="keywords" content="">
+  <title>Proxmox VE 多合一家庭服务器 ~ Songchan</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Songchan</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('https://s1.ax1x.com/2020/04/06/G6PFWq.png')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期三, 四月 1日 2020, 1:21 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    2.4k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      10 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>以前折腾过一段时间的PVE，但由于经验不足，碰到了一些当时觉得不能解决的问题，比如pfsense网速慢、黑群晖网速跑不满千兆等，后来就玩基于矿难蜗牛星际的黑群晖、基于斐讯N1的旁路由等等。</p>
+<p>由于一次偶然的意外（主机电源炸了-_-!!），面临简单换一块电源还是折腾，我毅然决然地选择了折腾，看到某宝上hp800g3sff准系统3xx的价格貌似有点香，于是果断买买买。准系统弄回来后成色有点喜出望外，风扇上一点灰都没有，本打算继续黑苹果，结果死活引导不进系统。</p>
+<p>于是梳理了下需求，目前本人在学习Web前端开发，而Windows下的CMD.exe实在是丑出天际以及没有趁手的命令行工具，好在微软已经意识到这个问题，借助WSL、VSCode Remote等工具可以很好地满足我这方面的需求。此外，看别人玩多合一家庭服务器手痒痒，于是把这台主机设定为软路由、透明代理网关、网络存储、远程开发机于一体的家庭服务器。好，下面开搞。</p>
+<h3 id="0-1-硬件"><a href="#0-1-硬件" class="headerlink" title="0.1 硬件"></a>0.1 硬件</h3><table>
+<thead>
+<tr>
+<th>部件</th>
+<th>型号</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU</td>
+<td>i5-7500</td>
+<td></td>
+</tr>
+<tr>
+<td>主板电源机箱</td>
+<td>hp 800 g3 sff 准系统</td>
+<td></td>
+</tr>
+<tr>
+<td>内存</td>
+<td>镁光8G x 2</td>
+<td></td>
+</tr>
+<tr>
+<td>网卡</td>
+<td>intel i219 板载</td>
+<td>PVE管理口</td>
+</tr>
+<tr>
+<td>网卡</td>
+<td>intel i350t4 寨卡</td>
+<td>pfsense WAN/dsm LAN</td>
+</tr>
+<tr>
+<td>存储1</td>
+<td>ADATA 128G</td>
+<td>PVE系统盘</td>
+</tr>
+<tr>
+<td>存储2</td>
+<td>intel 600p 256G</td>
+<td>虚拟机专用存储盘</td>
+</tr>
+<tr>
+<td>存储3</td>
+<td>杂牌固态120G</td>
+<td>群晖下载盘</td>
+</tr>
+<tr>
+<td>存储4</td>
+<td>西数紫盘4T</td>
+<td>群晖仓储盘</td>
+</tr>
+</tbody></table>
+<h3 id="0-2-网络拓扑"><a href="#0-2-网络拓扑" class="headerlink" title="0.2 网络拓扑"></a>0.2 网络拓扑</h3><p>由于需要使用IPTV但又懒，暂时由光猫负责拨号，ProxmoxVE承担多项功能，肩负软路由、透明代理网关、网络存储、远程开发机等任务，8口POE交换机除了交换机的本职工作还要给AP供电，图上少画了AC控制器，实际是有的。主力机是一台荣耀笔记本，搭配24寸2k外接显示器基本满足目前的使用需求。</p>
+<p><img src="https://s1.ax1x.com/2020/04/04/G0N3Jf.png" srcset="/img/loading.gif" alt="网络拓扑"></p>
+<h3 id="1-安装Proxmox-VE宿主"><a href="#1-安装Proxmox-VE宿主" class="headerlink" title="1 安装Proxmox VE宿主"></a>1 安装Proxmox VE宿主</h3><h4 id="1-1-下载镜像并制作U盘启动盘"><a href="#1-1-下载镜像并制作U盘启动盘" class="headerlink" title="1.1 下载镜像并制作U盘启动盘"></a>1.1 下载镜像并制作U盘启动盘</h4><p>首先从Proxmox VE的<a href="https://www.proxmox.com/en/downloads" target="_blank" rel="noopener">官网</a>下载6.1版本的ISO安装包，使用你喜欢的工具将其写入U盘，这里我使用的是Etcher。</p>
+<p><img src="https://s1.ax1x.com/2020/04/06/G6PPFs.png" srcset="/img/loading.gif" alt="Etcher"></p>
+<h4 id="1-2-图形化安装"><a href="#1-2-图形化安装" class="headerlink" title="1.2 图形化安装"></a>1.2 图形化安装</h4><p>将U盘插到主机上，开机选择从U盘启动，进入图形化安装界面，根据提示安装。</p>
+<p><img src="https://s1.ax1x.com/2020/04/06/G6PFWq.png" srcset="/img/loading.gif" alt="安装界面"></p>
+<p>稍微解释下这个管理口配置，对于有软路由需求的情况而言，建议将管理口设置成LAN网段，方便后期管理。</p>
+<p><img src="https://s1.ax1x.com/2020/04/06/G6PElV.png" srcset="/img/loading.gif" alt="管理口设置"></p>
+<p>安装好后，找一台有浏览器的设备，使用网线连上PVE的管理口，将设备ip设置成管理口同网段，通过浏览器访问<code>https://192.168.x.x:8006</code>便可进入PVE的web管理界面。</p>
+<p><img src="https://s1.ax1x.com/2020/04/06/G6PiYn.png" srcset="/img/loading.gif" alt="登录"></p>
+<h4 id="1-3-删除企业源"><a href="#1-3-删除企业源" class="headerlink" title="1.3 删除企业源"></a>1.3 删除企业源</h4><p>需删除企业源，否则apt update会失败。</p>
+<pre><code class="bash">rm -rf /etc/apt/sources.list.d/pve-enterprise.list</code></pre>
+<h4 id="1-4-去除订阅提醒"><a href="#1-4-去除订阅提醒" class="headerlink" title="1.4 去除订阅提醒"></a>1.4 去除订阅提醒</h4><p>每次登陆web管理页面时会提醒订阅，可以通过修改<code>/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js</code>文件去除提醒。</p>
+<p>在shell中打开文件</p>
+<pre><code class="bash">nano /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js</code></pre>
+<p>找到</p>
+<pre><code class="js">if（data.status !== &#39;Active&#39;）</code></pre>
+<p>替换成</p>
+<pre><code class="js">if（false）</code></pre>
+<p>重启服务以生效</p>
+<pre><code class="bash">systemctl restart pveproxy.service</code></pre>
+<h4 id="1-5-更换国内源"><a href="#1-5-更换国内源" class="headerlink" title="1.5 更换国内源"></a>1.5 更换国内源</h4><p>使用国内的debian源以提高下载速度。</p>
+<p>在shell中打开文件</p>
+<pre><code class="bash">nano /etc/apt/sources.list</code></pre>
+<p>修改为</p>
+<pre><code class="bash">#deb http://ftp.debian.org/debian buster main contrib
+#deb http://ftp.debian.org/debian buster-updates main contrib
+# security updates
+#deb http://security.debian.org buster/updates main contrib
+
+# debian aliyun source
+deb https://mirrors.aliyun.com/debian buster main contrib non-free
+deb https://mirrors.aliyun.com/debian buster-updates main contrib non-free
+deb https://mirrors.aliyun.com/debian-security buster/updates main contrib non-free
+
+# proxmox source
+# deb http://mirrors.ustc.edu.cn/proxmox/debian/pve buster pve-no-subscription
+deb http://download.proxmox.com/debian/pve buster pve-no-subscription</code></pre>
+<p>更新&amp;升级</p>
+<pre><code class="bash">apt update &amp; apt upgrade</code></pre>
+<h3 id="2-安装pfsense"><a href="#2-安装pfsense" class="headerlink" title="2 安装pfsense"></a>2 安装pfsense</h3><p>pfSense是基于FreeBSD的、开源中最为可靠（World’s Most Trusted Open Source Firewall）的、可与商业级防火墙一战（It has successfully replaced every big name commercial firewall you can imagine in numerous installations around the world）的防火墙。</p>
+<h4 id="2-1-下载ISO安装盘"><a href="#2-1-下载ISO安装盘" class="headerlink" title="2.1 下载ISO安装盘"></a>2.1 下载ISO安装盘</h4><p>从<a href="https://www.pfsense.org/download/" target="_blank" rel="noopener">官网</a>下载IOS安装盘，并将其上传至PVE的local存储区。</p>
+<p><img src="https://s1.ax1x.com/2020/04/06/G6Pnw4.png" srcset="/img/loading.gif" alt="pfsense下载页"></p>
+<h4 id="2-2-创建虚拟机"><a href="#2-2-创建虚拟机" class="headerlink" title="2.2 创建虚拟机"></a>2.2 创建虚拟机</h4><p>按照下图配置创建虚拟机</p>
+<p><img src="https://s1.ax1x.com/2020/04/06/G6PmmF.png" srcset="/img/loading.gif" alt="pfsense虚拟机"></p>
+<p>创建完毕后不要立即启动，在虚拟机硬件菜单中增加一张网卡用作WAN口，记住网卡名称，后面需要用到。</p>
+<p>网卡增加完毕后，启动虚拟机，一切正常的话可以在控制台中看到如下界面。</p>
+<p><img src="https://s1.ax1x.com/2020/04/06/G6PVyT.png" srcset="/img/loading.gif" alt="pfsense启动页"></p>
+<p>安装程序会自动运行，随后提醒是否重启。</p>
+<h4 id="2-3-配置网络"><a href="#2-3-配置网络" class="headerlink" title="2.3 配置网络"></a>2.3 配置网络</h4><p>虚拟机重启后会进入网络端口分配界面。</p>
+<p><img src="https://s1.ax1x.com/2020/04/06/G6Plf1.png" srcset="/img/loading.gif" alt="pfsense网络配置"></p>
+<p>根据实际情况指定LAN口和WAN口，其中LAN需配置静态IP地址。</p>
+<h4 id="2-4-切换中文界面"><a href="#2-4-切换中文界面" class="headerlink" title="2.4 切换中文界面"></a>2.4 切换中文界面</h4><p>使用浏览器访问刚才设置的LAN地址，初始用户名/秘密是admin/pfsense。<br>进入<code>System / General Setup</code>页面，将<code>Language</code>改为<code>Chinese(Simplified, China)</code>保存生效。</p>
+<h4 id="2-5-禁用硬件校验和卸载（！！非常重要）"><a href="#2-5-禁用硬件校验和卸载（！！非常重要）" class="headerlink" title="2.5 禁用硬件校验和卸载（！！非常重要）"></a>2.5 禁用硬件校验和卸载（！！非常重要）</h4><p>进入<code>系统 / 高级选项 / 网络设置</code>，勾选<code>禁用硬件校验和卸载</code>,否则网速会异常地慢。</p>
+<p><img src="https://s1.ax1x.com/2020/04/06/G6PMk9.png" srcset="/img/loading.gif" alt="禁用硬件校验和卸载"></p>
+<p><em>关于pfsense的其他问题可以参考<a href="https://docs.netgate.com/pfsense/en/latest/virtualization/virtualizing-pfsense-with-proxmox.html" target="_blank" rel="noopener">官方文档</a>或Google。</em></p>
+<h3 id="3-安装clash旁路由"><a href="#3-安装clash旁路由" class="headerlink" title="3 安装clash旁路由"></a>3 安装clash旁路由</h3><p>旁路由的本质是一台网关服务器，在其上运行相应的代理软件，其他设备将其网关配置为该旁路由IP即可实现透明代理。下面基于Debian系统上运行Clash代理软件实现旁路由的功能。</p>
+<h4 id="3-1-创建Debian虚拟机"><a href="#3-1-创建Debian虚拟机" class="headerlink" title="3.1 创建Debian虚拟机"></a>3.1 创建Debian虚拟机</h4><p>安装过程请自行Google，安装完毕后设置成静态IP地址。</p>
+<pre><code class="bash">sudo nano /etc/network/interfaces</code></pre>
+<p>配置参考如下</p>
+<pre><code class="bash"># This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+allow-hotplug ens18
+iface ens18 inet static
+  address 192.168.4.2
+  netmask 255.255.255.0
+  gateway 192.168.4.1
+  dns-nameservers 192.168.4.1</code></pre>
+<h4 id="3-2-下载clash"><a href="#3-2-下载clash" class="headerlink" title="3.2 下载clash"></a>3.2 下载clash</h4><pre><code class="bash"># 下载最新版 clash，注意根据自己的系统下载对应的版本，我的是 64 位的，所以下载的是 linux-amd64 这个版本
+wget https://github.com/Dreamacro/clash/releases/download/v0.19.0/clash-linux-amd64-v0.19.0.gz
+# 解压并且把二进制文件放到 /usr/bin ，并且加上可执行权限
+gzip -d clash-linux-amd64-v0.19.0.gz
+sudo mv clash-linux-amd64-v0.19.0 /usr/bin/clash
+sudo chmod +x /usr/bin/clash
+# 为 clash 添加绑定低位端口的权限，这样运行 clash 的时候无需 root 权限
+sudo setcap cap_net_bind_service=+ep /usr/bin/clash</code></pre>
+<h4 id="3-3-创建配置文件"><a href="#3-3-创建配置文件" class="headerlink" title="3.3 创建配置文件"></a>3.3 创建配置文件</h4><pre><code class="bash"># 创建文件夹
+mkdir -p ~/.config/clash
+cd ~/.config/clash
+# 创建配置文件
+touch config.yaml
+nano config.yaml</code></pre>
+<p>配置文件的内容我没有仔细去研究，因为我的机场服务商提供了clash的托管服务，浏览器访问该托管地址就是详细的clash配置。</p>
+<p>配置好的config.yaml应该长这样。</p>
+<p><img src="https://s1.ax1x.com/2020/04/06/G6PuTJ.png" srcset="/img/loading.gif" alt="config.yaml"></p>
+<p>正确配置后，在<code>~/.config/clash</code>目录下输入<code>clash</code>命令，应该就可以正常运行了。</p>
+<h4 id="3-4-设置转发和路由"><a href="#3-4-设置转发和路由" class="headerlink" title="3.4 设置转发和路由"></a>3.4 设置转发和路由</h4><p>编辑<code>/etc/sysctl.conf</code>文件开启转发功能，找到 <code>#net.ipv4.ip_forward=1</code>，去掉前面的#号</p>
+<pre><code class="bash">sudo nano /etc/sysctl.conf
+## ------分割线------- ##
+net.ipv4.ip_forward=1</code></pre>
+<p>依次执行下列iptables命令(可能需要使用<code>sudo</code>)</p>
+<pre><code class="bash">iptables -t nat -N clash
+iptables -t nat -N clash_dns
+
+iptables -t nat -A PREROUTING -p tcp --dport 53 -d 198.19.0.0/24 -j clash_dns
+iptables -t nat -A PREROUTING -p udp --dport 53 -d 198.19.0.0/24 -j clash_dns
+iptables -t nat -A PREROUTING -p tcp -j clash
+
+# 这里需要注意的是，下面两行最后的 192.168.1.80 是当前旁路由的 IP 地址，请根据你自己的实际情况修改
+# 如果你自己的旁路由 IP 跟下面的 IP 地址不对的话会造成无法翻墙
+iptables -t nat -A clash_dns -p udp --dport 53 -d 198.19.0.0/24 -j DNAT --to-destination 192.168.1.80:53
+iptables -t nat -A clash_dns -p tcp --dport 53 -d 198.19.0.0/24 -j DNAT --to-destination 192.168.1.80:53
+
+iptables -t nat -A clash -d 0.0.0.0/8 -j RETURN
+iptables -t nat -A clash -d 10.0.0.0/8 -j RETURN
+iptables -t nat -A clash -d 127.0.0.0/8 -j RETURN
+iptables -t nat -A clash -d 169.254.0.0/16 -j RETURN
+iptables -t nat -A clash -d 172.16.0.0/12 -j RETURN
+iptables -t nat -A clash -d 192.168.0.0/16 -j RETURN
+iptables -t nat -A clash -d 224.0.0.0/4 -j RETURN
+iptables -t nat -A clash -d 240.0.0.0/4 -j RETURN
+
+iptables -t nat -A clash -p tcp -j REDIRECT --to-ports 7892</code></pre>
+<p>执行完上面的指令后需要安装iptables-persistent以保存iptables，根据提示保存即可。</p>
+<pre><code class="bash">sudo apt install iptables-persistent</code></pre>
+<h4 id="3-5-配置开机自启动"><a href="#3-5-配置开机自启动" class="headerlink" title="3.5 配置开机自启动"></a>3.5 配置开机自启动</h4><p>这里使用<code>systemctl</code>来管理clash服务。<br>首先创建clash服务文件</p>
+<pre><code class="bash">sudo touch /etc/systemd/system/clash.service
+sudo nano /etc/systemd/system/clash.service</code></pre>
+<p>配置如下（修改<code>你的用户名</code>）</p>
+<pre><code class="bash">[Unit]
+Description=clash daemon
+
+[Service]
+Type=simple
+User=你的用户名
+ExecStart=/usr/bin/clash -d /home/你的用户名/.config/clash/
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+<p>保存，启动服务以生效</p>
+<pre><code class="bash"># 启动 clash
+sudo systemctl start clash.service
+# 启动开机自启
+sudo systemctl enable clash.service</code></pre>
+<h4 id="3-6-使用"><a href="#3-6-使用" class="headerlink" title="3.6 使用"></a>3.6 使用</h4><p>在对应的设备上，将网关地址设置成该旁路由的IP地址即可。</p>
+<p><em>如果遇到问题，可以在~/.config/clash目录下输入clash命令直接运行clash查错，我就遇到了<code>Country.mmdb无效</code>的问题</em></p>
+<h3 id="4-安装群晖"><a href="#4-安装群晖" class="headerlink" title="4 安装群晖"></a>4 安装群晖</h3><p>To be contine</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/proxmoxVE">proxmoxVE</a>
+                
+                  <a class="hover-with-bg" href="/tags/pfsense">pfsense</a>
+                
+                  <a class="hover-with-bg" href="/tags/clash">clash</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E9%BB%91%E7%BE%A4%E6%99%96">黑群晖</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Proxmox VE 多合一家庭服务器&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
